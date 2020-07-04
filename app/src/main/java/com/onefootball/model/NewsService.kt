@@ -1,6 +1,6 @@
 package com.onefootball.model
 
-import android.content.Context
+import com.onefootball.NewsApplication
 import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -9,10 +9,9 @@ class NewsService {
 
     var jsonString: String? = null
 
+    fun getNewsData(): List<News> {
 
-    fun getNewsData(context: Context): List<News> {
-
-        var inputStream = context.assets.open("news.json")
+        var inputStream = NewsApplication.context.assets.open("news.json")
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
