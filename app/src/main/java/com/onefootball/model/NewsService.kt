@@ -1,16 +1,25 @@
 package com.onefootball.model
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.onefootball.NewsApplication
+import com.onefootball.di.DaggerApiComponent
 import org.json.JSONObject
 import java.nio.charset.Charset
+import javax.inject.Inject
 
-class NewsService {
+open class NewsService {
 
-      fun getNewsData(): List<News> {
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
-        val inputStream = NewsApplication.context.assets.open("news.json")
+    @Inject
+    lateinit var context: Context
+
+    fun getNewsData(): List<News> {
+
+        val inputStream = context.assets.open("news.json")
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)

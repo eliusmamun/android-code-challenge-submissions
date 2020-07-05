@@ -1,5 +1,6 @@
 package com.onefootball.di
 
+import com.onefootball.model.NewsService
 import com.onefootball.viewmodel.NewsViewModel
 import dagger.Component
 
@@ -7,4 +8,6 @@ import dagger.Component
 interface ApiComponent {
 
     fun inject(newsViewModel: NewsViewModel)
+
+    fun inject(newsService: NewsService)
 }
