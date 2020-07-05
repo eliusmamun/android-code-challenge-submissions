@@ -40,7 +40,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class NewsViewHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class NewsViewHolder(private val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(news: News) {
             binding.apply {
                 newsView = news.imageURL?:""

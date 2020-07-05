@@ -12,9 +12,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MyNewsActivity : AppCompatActivity() {
 
-    var myAdapter = NewsAdapter()
+    private var myAdapter = NewsAdapter()
 
-    lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
