@@ -18,10 +18,8 @@ class NewsService {
         val jsonString = buffer.toString(Charset.defaultCharset())
         val newsObject = JSONObject(jsonString).get("news")
 
-        val newsItems: List<News> = Gson().fromJson(newsObject.toString(),
+        return Gson().fromJson(newsObject.toString(),
             object : TypeToken<List<News>>() {}.type
         )
-
-        return newsItems
     }
 }

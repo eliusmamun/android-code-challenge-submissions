@@ -10,7 +10,7 @@ class NewsViewModel : ViewModel() {
 
     var newsService = NewsService()
 
-    val news: MutableLiveData<List<News>> by lazy {
+    private val news: MutableLiveData<List<News>> by lazy {
         fetchNews()
         MutableLiveData<List<News>>()
     }
