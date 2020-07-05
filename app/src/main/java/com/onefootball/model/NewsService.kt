@@ -8,7 +8,7 @@ import java.nio.charset.Charset
 
 class NewsService {
 
-    fun getNewsData(): List<News> {
+      fun getNewsData(): List<News> {
 
         val inputStream = NewsApplication.context.assets.open("news.json")
         val size = inputStream.available()
