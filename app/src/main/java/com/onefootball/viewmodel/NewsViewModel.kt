@@ -2,15 +2,22 @@ package com.onefootball.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.onefootball.di.DaggerApiComponent
 import com.onefootball.model.News
 import com.onefootball.model.NewsService
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 
 class NewsViewModel : ViewModel() {
 
-     private var newsService = NewsService()
+    @Inject
+    lateinit var newsService : NewsService
 
+
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
     private val news: MutableLiveData<List<News>> by lazy {
         fetchNews()
