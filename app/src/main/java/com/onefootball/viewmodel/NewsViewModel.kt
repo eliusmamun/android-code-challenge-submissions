@@ -19,7 +19,7 @@ class NewsViewModel : ViewModel() {
         DaggerApiComponent.create().inject(this)
     }
 
-    private val news: MutableLiveData<List<News>> by lazy {
+     val news: MutableLiveData<List<News>> by lazy {
         fetchNews()
         MutableLiveData<List<News>>()
     }
@@ -42,7 +42,7 @@ class NewsViewModel : ViewModel() {
     /**
      * Fetches news from the json file
      */
-    private fun fetchNews() {
+     fun fetchNews() {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val newsData = newsService.getNewsData()
