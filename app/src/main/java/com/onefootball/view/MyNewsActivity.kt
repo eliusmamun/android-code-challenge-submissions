@@ -27,7 +27,16 @@ class MyNewsActivity : AppCompatActivity() {
         }
 
         observeViewModel()
+
+        /**
+         * Support Pull to refresh
+         */
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            viewModel.refresh()
+        }
     }
+
 
     /**
      * Register the observers

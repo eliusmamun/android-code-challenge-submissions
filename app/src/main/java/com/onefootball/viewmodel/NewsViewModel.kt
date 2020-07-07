@@ -39,10 +39,14 @@ class NewsViewModel : ViewModel() {
         return news
     }
 
+    fun refresh(){
+        fetchNews()
+    }
+
     /**
      * Fetches news from the json file
      */
-     fun fetchNews() {
+     private fun fetchNews() {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val newsData = newsService.getNewsData()
