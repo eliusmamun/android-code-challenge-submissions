@@ -29,7 +29,7 @@ class MyNewsActivity : AppCompatActivity() {
         observeViewModel()
 
         /**
-         * Support Pull to refresh
+         * Supports Pull to refresh
          */
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
