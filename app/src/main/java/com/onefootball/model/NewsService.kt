@@ -4,12 +4,11 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.onefootball.di.DaggerApiComponent
-import com.onefootball.utils.APPContext
 import org.json.JSONObject
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-open class NewsService {
+ class NewsService {
 
     init {
         DaggerApiComponent.create().inject(this)

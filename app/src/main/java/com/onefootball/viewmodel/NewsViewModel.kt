@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.onefootball.di.DaggerApiComponent
 import com.onefootball.model.News
 import com.onefootball.model.NewsService
+import com.onefootball.utils.EspressoIdlingResource
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class NewsViewModel : ViewModel() {
         DaggerApiComponent.create().inject(this)
     }
 
-     val news: MutableLiveData<List<News>> by lazy {
+     private val news: MutableLiveData<List<News>> by lazy {
         fetchNews()
         MutableLiveData<List<News>>()
     }
@@ -47,6 +48,7 @@ class NewsViewModel : ViewModel() {
      * Fetches news from the json file
      */
      private fun fetchNews() {
+        EspressoIdlingResource.increment()
         loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val newsData = newsService.getNewsData()
@@ -55,6 +57,7 @@ class NewsViewModel : ViewModel() {
                 newsLoadError.value = null
                 loading.value = false
             }
+            EspressoIdlingResource.decrement()
         }
     }
 

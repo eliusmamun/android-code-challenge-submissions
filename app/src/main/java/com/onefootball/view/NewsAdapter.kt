@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.onefootball.R
 import com.onefootball.databinding.NewsItemBinding
 import com.onefootball.model.News
+import com.onefootball.utils.EspressoIdlingResource
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
@@ -35,9 +36,13 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     }
 
     fun setNewsItems(newListOfNewsItems: List<News>) {
+        EspressoIdlingResource.increment()
         newsItems.clear()
         newsItems.addAll(newListOfNewsItems)
         notifyDataSetChanged()
+        EspressoIdlingResource.decrement()
+
+
     }
 
     class NewsViewHolder(private val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
