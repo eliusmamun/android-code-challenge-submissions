@@ -2,6 +2,7 @@ package com.onefootball.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.onefootball.di.DaggerApiComponent
 import com.onefootball.model.News
 import com.onefootball.model.NewsService
@@ -10,7 +11,9 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
-class NewsViewModel : ViewModel() {
+class NewsViewModel(
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel() {
 
     @Inject
     lateinit var newsService : NewsService
@@ -20,23 +23,23 @@ class NewsViewModel : ViewModel() {
         DaggerApiComponent.create().inject(this)
     }
 
-     private val news: MutableLiveData<List<News>> by lazy {
+     private val news: MutableLiveData<News> by lazy {
         fetchNews()
-        MutableLiveData<List<News>>()
+        MutableLiveData<News>()
     }
 
      val newsLoadError = MutableLiveData<String?>()
      val loading = MutableLiveData<Boolean>()
 
-    private var job: Job? = null
+    //private var job: Job? = null
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             onError("Exception: ${throwable.localizedMessage}")
         }
     }
 
 
-    fun getNewsObservable(): MutableLiveData<List<News>> {
+    fun getNewsObservable(): MutableLiveData<News> {
         return news
     }
 
@@ -45,18 +48,20 @@ class NewsViewModel : ViewModel() {
     }
 
     /**
-     * Fetches news from the json file
+     * Fetches news from the json file.
+     * viewModelScope by default runs on main thread.
      */
      private fun fetchNews() {
         EspressoIdlingResource.increment()
         loading.value = true
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val newsData = newsService.getNewsData()
-            withContext(Dispatchers.Main) {
+         viewModelScope.launch(exceptionHandler) {
+            val newsData = withContext(ioDispatcher){
+                newsService.getNewsData()
+            }
                 news.value = newsData
                 newsLoadError.value = null
                 loading.value = false
-            }
+
             EspressoIdlingResource.decrement()
         }
     }
@@ -70,9 +75,9 @@ class NewsViewModel : ViewModel() {
         loading.value = false
     }
 
-    override fun onCleared() {
+   /* override fun onCleared() {
        super.onCleared()
         job?.cancel()
-    }
+    }*/
 
 }

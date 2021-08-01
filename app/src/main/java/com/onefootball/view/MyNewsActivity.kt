@@ -45,7 +45,10 @@ class MyNewsActivity : AppCompatActivity() {
         viewModel.getNewsObservable().observe(this, Observer { news ->
             news?.let {
                 newsRecyclerView.visibility = View.VISIBLE
-                myAdapter.setNewsItems(news)
+                news.newsList?.let {
+                    myAdapter.setNewsItems(news.newsList)
+                }
+
             }
         })
 

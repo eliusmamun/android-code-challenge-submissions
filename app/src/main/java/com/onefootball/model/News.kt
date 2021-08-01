@@ -2,8 +2,13 @@ package com.onefootball.model
 
 import com.google.gson.annotations.SerializedName
 
-data class News(
 
+data class News(
+    @SerializedName("news")
+    val newsList: List<NewsDetails>?
+)
+
+data class NewsDetails(
     @SerializedName("title")
     val title: String?,
 
@@ -18,5 +23,4 @@ data class News(
 
     @SerializedName("news_link")
     val newsLink: String?
-
 )
